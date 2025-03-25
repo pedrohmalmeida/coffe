@@ -1,17 +1,15 @@
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
 
-st.write('Pergunta')
-pergunta = 'Coffe is a crop of sifnificant socioeconomic importance, and the reuse of agri-food by-products and biowate has great potential across several industries. Coffe wastewater is a valuable resource containing esssential nutrinents that can be utilized by *Candida sorboxylosa* for a single-cell protein (SCP) production. This utilization contributes to mitigating the negative impacts of agro-industrial waste. The optiminzation of culture conditions using the design of experiments (DoE) technique is crucial in usderstanding the evironmental factors influencing metabolite production. In our study, the DoE thecnique was wmployed to analyze culture conditions, incluiding room temperatura, pH 8.4, aditation at 200 rpm, a headspace of 60% (v/v), and an inoculum of 0,75 optical density at 600 nm over 28-h period. This approach resulted in a remarkable SCP yield of 64.4% and dry cell weight of 2.26 g/L. It is noteworthy that there is no literature reporting SCP production under alkaline pH conditions in yeast. Intrerestingly, our work demonstrated that an alkaline pH of 8.4 significantly influenced SCP production by *C. sorboxylosa*. The DoE technique proced to be an efficient  statistical tool for optimizing culture conditions, offering several advantages, such as: (i) conducting cultures at room temperature to minimize unnecessart energy consumption; (ii) reducing the incybation time from 46 to 28 h , thereby enchancing overall productivity; (iii) achieving 1.7-fold increase in SCP yield compared to previous basal productuion levels.'
+st.header('Design of experiment technique on *Candida sorboxylosa*')
 st.write('Coffe is a crop of sifnificant socioeconomic importance, and the reuse of agri-food by-products and biowate has great potential across several industries. Coffe wastewater is a valuable resource containing esssential nutrinents that can be utilized by Candida sorboxylosa for a single-cell protein (SCP) production. This utilization contributes to mitigating the negative impacts of agro-industrial waste.')
 st.write('The optiminzation of culture conditions using the design of experiments (DoE) technique is crucial in usderstanding the evironmental factors influencing metabolite production.')
 st.write('In our study, the DoE thecnique was employed to analyze culture conditions, incluiding room temperatura, pH 8.4, aditation at 200 rpm, a headspace of 60% (v/v), and an inoculum of 0,75 optical density at 600 nm over 28-h period. This approach resulted in a remarkable SCP yield of 64.4% and dry cell weight of 2.26 g/L.')
 st.write('It is noteworthy that there is no literature reporting SCP production under alkaline pH conditions in yeast. Intrerestingly, our work demonstrated that an alkaline pH of 8.4 significantly influenced SCP production by C. sorboxylosa. ')
 st.write('The DoE technique proced to be an efficient statistical tool for optimizing culture conditions, offering several advantages, such as:')
-list = ['(i) conducting cultures at room temperature to minimize unnecessart energy consumption;','(ii) reducing the incybation time from 46 to 28 h , thereby enchancing overall productivity;','(iii) achieving 1.7-fold increase in SCP yield compared to previous basal productuion levels.']
+st.subheader('Comparison DoE technique vs Literature:')
 st.markdown("""
-Comparison DoE technique vs Literature:
 - (i) conducting cultures at room temperature to minimize unnecessart energy consumption;
 - (ii) reducing the incybation time from 46 to 28 h , thereby enchancing overall productivity;
 - (iii) achieving 1.7-fold increase in SCP yield compared to previous basal productuion levels.
@@ -56,14 +54,31 @@ data3 = {
     }
 df1 = pd.DataFrame(data1, index=['DoE technique'])
 df2 = pd.DataFrame(data2, index=['Literatura'])
+st.divider()
+st.subheader('Data Analysis')
 
 if st.button('Design of experiments (DoE) technique parameters and results'):
     st.dataframe(df1.transpose())
 
-if st.button('DoE vs Literature'):
+if st.toggle('DoE vs Literature'):
     st.write('From the information provided we can assume that the literature experiment introduces the same parameters as the experiment with the exception for the **pH** and **incubation period**, as such we can make a crude comparison:')
     df_combined = pd.concat([df1, df2], ignore_index=False)
     st.dataframe(df_combined.transpose())
+
+    if st.button('Show graphs'):
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader('Yield (%)')
+            st.bar_chart(df_combined['Yield (%)'], y_label='Yield (%)')
+
+            st.subheader('pH')
+            st.bar_chart(df_combined['pH'], y_label='pH')
+
+        with col2:
+            st.subheader('Incubation (h)')
+            st.bar_chart(df_combined['Incubation (h)'], y_label='pH')
+
+
 
 if st.toggle('Add your own technique'):
     st.write('From the information provided we can assume that the literature experiment introduces the same parameters as the experiment with the exception for the **pH** and **incubation period**, as well as a 1.7 reduction on yield as such we can make a crude comparison:')
@@ -110,7 +125,11 @@ if st.toggle('Add your own technique'):
 
             st.subheader('pH')
             st.bar_chart(df_final['pH'], y_label='pH')
-            
+
         with col2:
             st.subheader('Incubation (h)')
             st.bar_chart(df_final['Incubation (h)'], y_label='pH')
+
+
+
+
